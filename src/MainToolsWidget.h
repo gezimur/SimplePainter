@@ -32,6 +32,9 @@ private slots:
     void onOpen();
 
 private:
+    void initGui();
+    void createConnections();
+
     ColorSettingsWidget* m_pColorSettings;
     SizeSettingsWidget* m_pSizeSettings;
     QComboBox* m_pToolsComboBox;

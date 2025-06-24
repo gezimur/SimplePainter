@@ -12,20 +12,24 @@ PKGCONFIG+= \
 SOURCES += \
     $$PWD/src/main.cpp \
     $$PWD/src/MainWidget.cpp \
-    src/DrawingInstruction.cpp \
-    src/DrawingTool.cpp \
-    src/MainToolsWidget.cpp \
-    src/PaintEventFilter.cpp \
-    src/WorkspaceLayer.cpp \
-    src/WorkspaceLayerProcessor.cpp \
-    src/WorkspaceWidget.cpp
+    $$PWD/src/ColorSettingsWidget.cpp \
+    $$PWD/src/DrawingInstruction.cpp \
+    $$PWD/src/DrawingTool.cpp \
+    $$PWD/src/MainToolsWidget.cpp \
+    $$PWD/src/PaintEventFilter.cpp \
+    $$PWD/src/SizeSettingsWidget.cpp \
+    $$PWD/src/WorkspaceLayer.cpp \
+    $$PWD/src/WorkspaceLayerProcessor.cpp \
+    $$PWD/src/WorkspaceWidget.cpp
 
 HEADERS += \
     $$PWD/src/MainWidget.h \
-    src/DrawingInstruction.h \
-    src/DrawingTool.h \
-    src/MainToolsWidget.h \
-    src/PaintEventFilter.h \
-    src/WorkspaceLayer.h \
-    src/WorkspaceLayerProcessor.h \
-    src/WorkspaceWidget.h
+    $$PWD/src/ColorSettingsWidget.h \
+    $$PWD/src/DrawingInstruction.h \
+    $$PWD/src/DrawingTool.h \
+    $$PWD/src/MainToolsWidget.h \
+    $$PWD/src/PaintEventFilter.h \
+    $$PWD/src/SizeSettingsWidget.h \
+    $$PWD/src/WorkspaceLayer.h \
+    $$PWD/src/WorkspaceLayerProcessor.h \
+    $$PWD/src/WorkspaceWidget.h

@@ -9,20 +9,23 @@
 class WorkspaceLayer
 {
 public:
-    WorkspaceLayer();
+    explicit WorkspaceLayer(const std::string& strName);
 
-    void setName(const std::string& strName) noexcept;
+    void setName(const std::string& strName) ;
     const std::string& getName() const noexcept;
+
+    void setVisible(bool bVisible);
 
     void undo();
     void redo();
 
     void addInstruction(const std::shared_ptr<DrawingInstruction>& spInstruction);
 
-    const std::vector<std::shared_ptr<DrawingInstruction>>& getActive() const noexcept;
+    std::vector<std::shared_ptr<DrawingInstruction>> getActive() const;
 
 private:
     std::string m_strName;
+    bool m_bVisible;
 
     std::vector<std::shared_ptr<DrawingInstruction>> m_vActive;
     std::vector<std::shared_ptr<DrawingInstruction>> m_vRedo;
