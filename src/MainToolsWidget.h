@@ -25,6 +25,10 @@ signals:
     void save();
     void open();
 
+public slots:
+    void onDisable();
+    void onEnable();
+
 private slots:
     void onChangeDrawingTool();
 

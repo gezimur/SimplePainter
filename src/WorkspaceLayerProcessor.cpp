@@ -4,7 +4,10 @@ void WorkspaceLayerProcessor::addLayer(const std::string& strLayer)
 {
     auto it = findLayer(strLayer);
     if (m_vLayers.end() == it)
-        m_vLayers.push_back(std::make_shared<WorkspaceLayer>(strLayer));
+    {
+        m_spActiveLayer = std::make_shared<WorkspaceLayer>(strLayer);
+        m_vLayers.push_back(m_spActiveLayer);
+    }
 }
 
 void WorkspaceLayerProcessor::removeLayer(const std::string& strLayer)

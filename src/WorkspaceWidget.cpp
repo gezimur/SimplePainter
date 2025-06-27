@@ -1,5 +1,7 @@
 #include "WorkspaceWidget.h"
 
+#include "LineDrawingTool.h" ///< @todo remove
+
 QMatrix4x4 make_projection(const QSize& crSize)
 {
     QMatrix4x4 Result;
@@ -31,7 +33,14 @@ QMatrix4x4 make_model()
 
 WorkspaceWidget::WorkspaceWidget(const QSize& crFrameSize)
 {
+    createConnections();
+
     setMinimumSize(crFrameSize);
+
+    m_PaintEventFilter.setSize(crFrameSize); ///< @todo remove
+    m_PaintEventFilter.setTool(std::make_shared<LineDrawingTool>());
+
+    installEventFilter(&m_PaintEventFilter);
 }
 
 void WorkspaceWidget::addLayer(const std::string& strLayer)
@@ -81,6 +90,12 @@ void WorkspaceWidget::onZoom(double dZoom)
 
 }
 
+void WorkspaceWidget::onAddInstruction(std::shared_ptr<DrawingInstruction> spInstruction)
+{
+    if (spInstruction)
+        m_LayersProcessor.getActiveLayer()->addInstruction(spInstruction);
+}
+
 void WorkspaceWidget::initializeGL()
 {
     glEnable(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -96,7 +111,8 @@ void WorkspaceWidget::initializeGL()
 
 void WorkspaceWidget::resizeGL(int w, int h)
 {
-    glViewport(0, 0, width(), height());
+    glViewport(0, 0, w, h);
+    m_PaintEventFilter.setSize(QSize{w, h});
 }
 
 void WorkspaceWidget::paintGL()
@@ -107,6 +123,10 @@ void WorkspaceWidget::paintGL()
     auto MVP = make_projection(size()) * make_view() * make_model();
     m_LayersProcessor.drawVisible(MVP);
 
+    auto spDrawing = m_PaintEventFilter.getCurrentInstruction();
+    if (spDrawing)
+        spDrawing->excecute(MVP);
+
     update();
 }
 
@@ -115,7 +135,8 @@ void WorkspaceWidget::createConnections()
     bool bConnected = true;
 
     bConnected &= static_cast<bool>(connect(&m_PaintEventFilter, SIGNAL(paintStarted()), SIGNAL(paintStarted())));
-    bConnected &= static_cast<bool>(connect(&m_PaintEventFilter, SIGNAL(paintFinished()), SIGNAL(paintFinished())));
+    bConnected &= static_cast<bool>(connect(&m_PaintEventFilter, SIGNAL(paintFinished(std::shared_ptr<DrawingInstruction>)), SIGNAL(paintFinished())));
+    bConnected &= static_cast<bool>(connect(&m_PaintEventFilter, SIGNAL(paintFinished(std::shared_ptr<DrawingInstruction>)), SLOT(onAddInstruction(std::shared_ptr<DrawingInstruction>))));
     bConnected &= static_cast<bool>(connect(&m_PaintEventFilter, SIGNAL(zoomRequested(double)), SLOT(onZoom(double))));
 
     assert(bConnected);

@@ -23,20 +23,16 @@ protected:
     explicit DrawingTool(drawing_tool Type);
 
 public:
-    DrawingTool();
+    virtual void startPainting(const QPoint& crPoint) = 0;
+    virtual void paint(const QPoint& crPoint) = 0;
+    virtual std::shared_ptr<DrawingInstruction> finishPainting(const QPoint& crPoint) = 0;
 
-    void pressTool(const QPoint& crPoint);
-    void moveTool(const QPoint& crPoint);
-    void releaseTool(const QPoint& crPoint);
+    virtual std::shared_ptr<DrawingInstruction> getDrawingInstruction() const = 0;
 
-    std::shared_ptr<DrawingInstruction> getDrawingInstruction() const;
-
-private:
+protected:
     drawing_tool m_Type;
 
     QColor m_Color;
     int m_iSize;
-
-    std::vector<QPoint> m_vPoints;
 };
 

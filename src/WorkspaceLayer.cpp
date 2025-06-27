@@ -45,6 +45,7 @@ void WorkspaceLayer::redo()
 void WorkspaceLayer::addInstruction(const std::shared_ptr<DrawingInstruction>& spInstruction)
 {
     m_vActive.push_back(spInstruction);
+    m_vRedo.clear();
 }
 
 std::vector<std::shared_ptr<DrawingInstruction> > WorkspaceLayer::getActive() const

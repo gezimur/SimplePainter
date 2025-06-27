@@ -30,8 +30,8 @@ void MainWidget::createConnections()
 //    void save();
 //    void open();
 
-    bConnected &= static_cast<bool>(connect(m_pWorkspace, SIGNAL(paintStarted()), m_pToolsWidget, SLOT(hide())));
-    bConnected &= static_cast<bool>(connect(m_pWorkspace, SIGNAL(paintFinished()), m_pToolsWidget, SLOT(show())));
+    bConnected &= static_cast<bool>(connect(m_pWorkspace, SIGNAL(paintStarted()), m_pToolsWidget, SLOT(onDisable())));
+    bConnected &= static_cast<bool>(connect(m_pWorkspace, SIGNAL(paintFinished()), m_pToolsWidget, SLOT(onEnable())));
 
     assert(bConnected);
 }

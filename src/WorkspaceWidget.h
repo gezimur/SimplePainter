@@ -30,6 +30,9 @@ public slots:
     void onUpdateTool(const std::shared_ptr<DrawingTool>& spTool);
     void onZoom(double dZoom);
 
+private slots:
+    void onAddInstruction(std::shared_ptr<DrawingInstruction> spInstruction);
+
 private:
     void initializeGL() final;
     void resizeGL(int w, int h) final;

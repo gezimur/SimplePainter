@@ -20,6 +20,16 @@ MainToolsWidget::MainToolsWidget()
     createConnections();
 }
 
+void MainToolsWidget::onDisable()
+{
+    setEnabled(false);
+}
+
+void MainToolsWidget::onEnable()
+{
+    setEnabled(true);
+}
+
 void MainToolsWidget::onChangeDrawingTool()
 {
     
