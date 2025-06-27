@@ -23,6 +23,8 @@ public:
 
     std::vector<std::shared_ptr<DrawingInstruction>> getActive() const;
 
+    void draw(const QMatrix4x4& crMVP);
+
 private:
     std::string m_strName;
     bool m_bVisible;

@@ -2,7 +2,7 @@ QT       += opengl widgets
 
 CONFIG += c++17
 
-LIBS += -lGL -lGLEW -lglut -lglfw
+LIBS += -lGL
 
 CONFIG +=   link_pkgconfig
 DEFINES+=__STDC_CONSTANT_MACROS
@@ -20,7 +20,9 @@ SOURCES += \
     $$PWD/src/SizeSettingsWidget.cpp \
     $$PWD/src/WorkspaceLayer.cpp \
     $$PWD/src/WorkspaceLayerProcessor.cpp \
-    $$PWD/src/WorkspaceWidget.cpp
+    $$PWD/src/WorkspaceWidget.cpp \
+    $$PWD/src/LineDrawingInstruction.cpp \
+    $$PWD/src/make_gl_program.cpp
 
 HEADERS += \
     $$PWD/src/MainWidget.h \
@@ -32,4 +34,6 @@ HEADERS += \
     $$PWD/src/SizeSettingsWidget.h \
     $$PWD/src/WorkspaceLayer.h \
     $$PWD/src/WorkspaceLayerProcessor.h \
-    $$PWD/src/WorkspaceWidget.h
+    $$PWD/src/WorkspaceWidget.h \
+    $$PWD/src/LineDrawingInstruction.h \
+    $$PWD/src/make_gl_program.h

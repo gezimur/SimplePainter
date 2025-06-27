@@ -2,7 +2,7 @@
 
 WorkspaceLayer::WorkspaceLayer(const std::string& strName)
     : m_strName{strName},
-      m_bVisible{false}
+      m_bVisible{true}
 {
 
 }
@@ -53,4 +53,13 @@ std::vector<std::shared_ptr<DrawingInstruction> > WorkspaceLayer::getActive() co
         return m_vActive;
     else
         return {};
+}
+
+void WorkspaceLayer::draw(const QMatrix4x4& crMVP)
+{
+    if (!m_bVisible)
+        return;
+
+    for (const auto& spInstruction : m_vActive)
+        spInstruction->excecute(crMVP);
 }

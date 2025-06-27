@@ -1,7 +1,35 @@
 #include "WorkspaceWidget.h"
 
+QMatrix4x4 make_projection(const QSize& crSize)
+{
+    QMatrix4x4 Result;
+    Result.ortho(0.0f,
+                 static_cast<float>(crSize.width()),
+                 0.0f,
+                 static_cast<float>(crSize.height()),
+                 0.0f,
+                 100.0f);
+
+    return Result;
+}
+
+QMatrix4x4 make_view()
+{
+    QMatrix4x4 Result;
+    Result.lookAt(QVector3D{0, 0, 1}, QVector3D{0, 0, 0}, QVector3D{0, 1, 0});
+    return Result;
+}
+
+QMatrix4x4 make_model()
+{
+    QMatrix4x4 Result{1.0f, 0.0f, 0.0f, 0.0f,
+                      0.0f, 1.0f, 0.0f, 0.0f,
+                      0.0f, 0.0f, 1.0f, 0.0f,
+                      0.0f, 0.0f, 0.0f, 1.0f};
+    return Result;
+}
+
 WorkspaceWidget::WorkspaceWidget(const QSize& crFrameSize)
-    : m_LayersProcessor{crFrameSize}
 {
     setMinimumSize(crFrameSize);
 }
@@ -55,17 +83,31 @@ void WorkspaceWidget::onZoom(double dZoom)
 
 void WorkspaceWidget::initializeGL()
 {
+    glEnable(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
+
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    m_LayersProcessor.addLayer("Default");
 }
 
 void WorkspaceWidget::resizeGL(int w, int h)
 {
-
+    glViewport(0, 0, width(), height());
 }
 
 void WorkspaceWidget::paintGL()
 {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
+    auto MVP = make_projection(size()) * make_view() * make_model();
+    m_LayersProcessor.drawVisible(MVP);
+
+    update();
 }
 
 void WorkspaceWidget::createConnections()

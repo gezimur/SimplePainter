@@ -16,7 +16,7 @@ MainWidget::MainWidget()
 void MainWidget::initGui()
 {
     auto pLayout = new QVBoxLayout{this};
-    pLayout->addWidget(m_pWorkspace);
+    pLayout->addWidget(m_pWorkspace, 100);
     pLayout->addWidget(m_pToolsWidget);
 }
 

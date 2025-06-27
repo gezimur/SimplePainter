@@ -1,12 +1,5 @@
 #include "WorkspaceLayerProcessor.h"
 
-
-WorkspaceLayerProcessor::WorkspaceLayerProcessor(const QSize& /*crSize*/)
-    : m_spActiveLayer{std::make_shared<WorkspaceLayer>("Default")}
-{
-    m_vLayers.push_back(m_spActiveLayer);
-}
-
 void WorkspaceLayerProcessor::addLayer(const std::string& strLayer)
 {
     auto it = findLayer(strLayer);
@@ -62,6 +55,12 @@ std::vector<std::string> WorkspaceLayerProcessor::getLayersList() const
 const std::shared_ptr<WorkspaceLayer>& WorkspaceLayerProcessor::getActiveLayer() const noexcept
 {
     return m_spActiveLayer;
+}
+
+void WorkspaceLayerProcessor::drawVisible(const QMatrix4x4& crMVP)
+{
+    for (const auto& spLayer : m_vLayers)
+        spLayer->draw(crMVP);
 }
 
 std::vector<std::shared_ptr<WorkspaceLayer>>::const_iterator WorkspaceLayerProcessor::findLayer(const std::string& strLayer) const

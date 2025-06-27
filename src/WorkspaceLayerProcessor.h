@@ -10,8 +10,6 @@
 class WorkspaceLayerProcessor
 {
 public:
-    explicit WorkspaceLayerProcessor(const QSize& crSize);
-
     void addLayer(const std::string& strLayer);
     void removeLayer(const std::string& strLayer);
     void selectLayer(const std::string& strLayer);
@@ -20,6 +18,8 @@ public:
     std::vector<std::string> getLayersList() const;
 
     const std::shared_ptr<WorkspaceLayer>& getActiveLayer() const noexcept;
+
+    void drawVisible(const QMatrix4x4& crMVP);
 
 private:
     std::vector<std::shared_ptr<WorkspaceLayer>>::const_iterator findLayer(const std::string& strLayer) const;
