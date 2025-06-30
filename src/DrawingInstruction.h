@@ -35,7 +35,7 @@ protected:
     virtual void excecuteImpl() = 0;
 
     QColor m_Color;
-    int m_iSize = 15;
+    int m_iSize = 1;
 
     QOpenGLBuffer m_GLVertexBuffer;
 

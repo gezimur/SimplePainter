@@ -5,6 +5,7 @@
 
 #include "WorkspaceLayerProcessor.h"
 #include "PaintEventFilter.h"
+#include "WorkspacePainter.h"
 
 class WorkspaceWidget: public QOpenGLWidget
 {
@@ -40,6 +41,7 @@ private:
 
     void createConnections();
 
+    WorkspacePainter m_Painter;
     WorkspaceLayerProcessor m_LayersProcessor;
     std::shared_ptr<WorkspaceLayer> m_spActiveLayer;
 

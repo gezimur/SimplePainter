@@ -23,7 +23,8 @@ SOURCES += \
     $$PWD/src/WorkspaceWidget.cpp \
     $$PWD/src/LineDrawingInstruction.cpp \
     $$PWD/src/make_gl_program.cpp \
-    $$PWD/src/LineDrawingTool.cpp
+    $$PWD/src/LineDrawingTool.cpp \
+    $$PWD/src/WorkspacePainter.cpp
 
 HEADERS += \
     $$PWD/src/MainWidget.h \
@@ -38,4 +39,5 @@ HEADERS += \
     $$PWD/src/WorkspaceWidget.h \
     $$PWD/src/LineDrawingInstruction.h \
     $$PWD/src/make_gl_program.h \
-    $$PWD/src/LineDrawingTool.h
+    $$PWD/src/LineDrawingTool.h \
+    $$PWD/src/WorkspacePainter.h
