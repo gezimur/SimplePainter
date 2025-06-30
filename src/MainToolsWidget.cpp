@@ -6,9 +6,11 @@
 
 #include "ColorSettingsWidget.h"
 #include "SizeSettingsWidget.h"
+#include "LineDrawingTool.h"
 
 MainToolsWidget::MainToolsWidget()
-    : m_pColorSettings{new ColorSettingsWidget},
+    : m_spTool{std::make_shared<LineDrawingTool>()},
+      m_pColorSettings{new ColorSettingsWidget},
       m_pSizeSettings{new SizeSettingsWidget},
       m_pToolsComboBox{new QComboBox},
       m_pUndo{new QPushButton{"Undo"}},
@@ -32,7 +34,9 @@ void MainToolsWidget::onEnable()
 
 void MainToolsWidget::onChangeDrawingTool()
 {
-    
+    m_spTool->setColor(m_pColorSettings->getColor());
+//    m_spTool->setSize(m_pSizeSettings->getSize());
+    emit toolChanged(m_spTool);
 }
 
 void MainToolsWidget::onSave()

@@ -54,5 +54,5 @@ void WorkspacePainter::onFinishPaint(const QPoint& crPoint)
 
 QPoint WorkspacePainter::makeInversedPoint(const QPoint& crPoint) const
 {
-    return QPoint{ crPoint.x(), m_Size.height() - crPoint.y() };
+    return QPoint{crPoint.x(), m_Size.height() - crPoint.y()};
 }

@@ -39,6 +39,8 @@ private:
     void initGui();
     void createConnections();
 
+    std::shared_ptr<DrawingTool> m_spTool;
+
     ColorSettingsWidget* m_pColorSettings;
     SizeSettingsWidget* m_pSizeSettings;
     QComboBox* m_pToolsComboBox;

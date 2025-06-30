@@ -23,6 +23,9 @@ protected:
     explicit DrawingTool(drawing_tool Type);
 
 public:
+    void setSize(int iSize);
+    void setColor(const QColor& crColor);
+
     virtual void startPainting(const QPoint& crPoint) = 0;
     virtual void paint(const QPoint& crPoint) = 0;
     virtual std::shared_ptr<DrawingInstruction> finishPainting(const QPoint& crPoint) = 0;
