@@ -35,7 +35,7 @@ void MainToolsWidget::onEnable()
 void MainToolsWidget::onChangeDrawingTool()
 {
     m_spTool->setColor(m_pColorSettings->getColor());
-//    m_spTool->setSize(m_pSizeSettings->getSize());
+    m_spTool->setSize(m_pSizeSettings->getSize());
     emit toolChanged(m_spTool);
 }
 

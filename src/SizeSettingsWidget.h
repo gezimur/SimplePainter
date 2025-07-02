@@ -3,6 +3,8 @@
 #include <QWidget>
 
 class QPushButton;
+class BasePopupWidget;
+class BaseValueSlider;
 
 class SizeSettingsWidget: public QWidget
 {
@@ -11,13 +13,22 @@ class SizeSettingsWidget: public QWidget
 public:
     SizeSettingsWidget();
 
+    int getSize() const noexcept;
+
 signals:
     void sizeSelected(int);
 
 private slots:
-    void onSelectSize();
+    void onPopup();
+    void onConfirm();
 
 private:
-    QPushButton* m_pSelect;
+    BasePopupWidget* makeSizeSettingsWidget();
+
+    int m_iSize;
+
+    QPushButton* m_pPopup;
+    BaseValueSlider* m_pSizeSlider;
+    BasePopupWidget* m_pSettingsWidget;
 };
 

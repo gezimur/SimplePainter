@@ -4,6 +4,9 @@
 #include <QSlider>
 #include <QVBoxLayout>
 
+#include "BasePopupWidget.h"
+#include "BaseValueSlider.h"
+
 ColorSettingsWidget::ColorSettingsWidget()
     : m_pPopup{new QPushButton{"Color"}},
       m_pSettingsWidget{makeColorSettingsWidget()}
@@ -24,8 +27,7 @@ const QColor& ColorSettingsWidget::getColor() const noexcept
 void ColorSettingsWidget::onPopup()
 {
     auto GlobalPoint = mapToGlobal(m_pPopup->geometry().topLeft());
-    m_pSettingsWidget->move(GlobalPoint -  QPoint{0, m_pSettingsWidget->height()});
-    m_pSettingsWidget->show();
+    m_pSettingsWidget->popup(GlobalPoint);
 }
 
 void ColorSettingsWidget::onConfirm()
@@ -49,9 +51,27 @@ void ColorSettingsWidget::setColorComponent(int iValue, color_components Compone
     }
 }
 
-QWidget* ColorSettingsWidget::makeColorSettingsWidget()
+QString ColorSettingsWidget::getColorComponentName(color_components Component) const
 {
-    auto pSettingsWidget = new QWidget;
+    switch (Component)
+    {
+    case color_components::red:
+        return "Red";
+    case color_components::green:
+        return "Green";
+    case color_components::blue:
+        return "Blue";
+    default:
+    {
+        assert("Invalid component passed");
+        return "";
+    }
+    }
+}
+
+BasePopupWidget* ColorSettingsWidget::makeColorSettingsWidget()
+{
+    auto pSettingsWidget = new BasePopupWidget;
 
     auto pRed = makeColorComponentSlider(color_components::red);
     auto pGreen = makeColorComponentSlider(color_components::green);
@@ -64,10 +84,6 @@ QWidget* ColorSettingsWidget::makeColorSettingsWidget()
     pSettingsLayout->addWidget(pBlue);
     pSettingsLayout->addWidget(pConfirm);
 
-    pSettingsWidget->setWindowFlags(Qt::Popup | Qt::CustomizeWindowHint);
-    pSettingsWidget->setWindowModality(Qt::NonModal);
-    pSettingsWidget->hide();
-
     bool bConnected = true;
     bConnected &= static_cast<bool>(connect(pConfirm, SIGNAL(clicked(bool)), SLOT(onConfirm())));
     assert(bConnected);
@@ -75,13 +91,13 @@ QWidget* ColorSettingsWidget::makeColorSettingsWidget()
     return pSettingsWidget;
 }
 
-QSlider* ColorSettingsWidget::makeColorComponentSlider(color_components Component)
+BaseValueSlider* ColorSettingsWidget::makeColorComponentSlider(color_components Component)
 {
-    auto pSlider = new QSlider(Qt::Horizontal);
+    auto pSlider = new BaseValueSlider(getColorComponentName(Component));
     pSlider->setRange(0, 255);
 
     bool bConnected = true;
-    bConnected &= static_cast<bool>(connect(pSlider, &QSlider::sliderMoved, this, [this, Component](int iValue)
+    bConnected &= static_cast<bool>(connect(pSlider, &BaseValueSlider::valueChanged, this, [this, Component](int iValue)
     {
         setColorComponent(iValue, Component);
     }));

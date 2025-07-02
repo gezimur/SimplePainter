@@ -4,6 +4,8 @@
 
 class QPushButton;
 class QSlider;
+class BasePopupWidget;
+class BaseValueSlider;
 
 class ColorSettingsWidget: public QWidget
 {
@@ -30,13 +32,14 @@ private slots:
 
 private:
     void setColorComponent(int iValue, color_components Component);
+    QString getColorComponentName(color_components Component) const;
 
-    QWidget* makeColorSettingsWidget();
-    QSlider* makeColorComponentSlider(color_components Component);
+    BasePopupWidget* makeColorSettingsWidget();
+    BaseValueSlider* makeColorComponentSlider(color_components Component);
 
     QColor m_Color;
 
     QPushButton* m_pPopup;
-    QWidget* m_pSettingsWidget;
+    BasePopupWidget* m_pSettingsWidget;
 };
 
