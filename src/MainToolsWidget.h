@@ -30,7 +30,9 @@ public slots:
     void onEnable();
 
 private slots:
-    void onChangeDrawingTool();
+    void onSwitchTool(int iTool);
+    void onChangeColor(const QColor& crColor);
+    void onChangeSize(int iSize);
 
     void onSave();
     void onOpen();

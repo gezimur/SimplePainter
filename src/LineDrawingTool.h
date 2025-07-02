@@ -6,8 +6,6 @@
 class LineDrawingTool: public DrawingTool
 {
 public:
-    LineDrawingTool();
-
     void startPainting(const QPoint& crPoint) final;
     void paint(const QPoint& crPoint) final;
     std::shared_ptr<DrawingInstruction> finishPainting(const QPoint& crPoint) final;

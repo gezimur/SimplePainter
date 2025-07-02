@@ -18,9 +18,10 @@ public:
     int getValue() const;
 
 signals:
-    void valueChanged(int);
+    void valueSelected(int);
 
 private slots:
+    void onProcValueSelected();
     void onProcValueChanged(int iValue);
 
 private:

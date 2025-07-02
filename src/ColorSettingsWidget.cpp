@@ -97,7 +97,7 @@ BaseValueSlider* ColorSettingsWidget::makeColorComponentSlider(color_components 
     pSlider->setRange(0, 255);
 
     bool bConnected = true;
-    bConnected &= static_cast<bool>(connect(pSlider, &BaseValueSlider::valueChanged, this, [this, Component](int iValue)
+    bConnected &= static_cast<bool>(connect(pSlider, &BaseValueSlider::valueSelected, this, [this, Component](int iValue)
     {
         setColorComponent(iValue, Component);
     }));

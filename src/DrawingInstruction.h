@@ -10,16 +10,6 @@
 ///< @todo straight line, square, elipse, fill, arbitray line
 class DrawingInstruction
 {
-    enum drawing_instruction
-    {
-        none = 0,
-        pen,
-        line,
-        square,
-        elipse,
-        fill
-    };
-
 public:
     explicit DrawingInstruction(std::vector<QPointF> vVertex, std::unique_ptr<QOpenGLShaderProgram> upGLProgram);
 

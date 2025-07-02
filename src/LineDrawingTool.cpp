@@ -1,11 +1,5 @@
 #include "LineDrawingTool.h"
 
-LineDrawingTool::LineDrawingTool()
-    : DrawingTool{drawing_tool::line}
-{
-
-}
-
 void LineDrawingTool::startPainting(const QPoint& crPoint)
 {
     m_spLine = std::make_shared<LineDrawingInstruction>(crPoint, crPoint);

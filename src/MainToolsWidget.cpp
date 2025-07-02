@@ -7,6 +7,7 @@
 #include "ColorSettingsWidget.h"
 #include "SizeSettingsWidget.h"
 #include "LineDrawingTool.h"
+#include "drawing_tools.h"
 
 MainToolsWidget::MainToolsWidget()
     : m_spTool{std::make_shared<LineDrawingTool>()},
@@ -32,10 +33,23 @@ void MainToolsWidget::onEnable()
     setEnabled(true);
 }
 
-void MainToolsWidget::onChangeDrawingTool()
+void MainToolsWidget::onSwitchTool(int iTool)
 {
+    m_spTool = make_tool(static_cast<drawing_tools>(iTool));
     m_spTool->setColor(m_pColorSettings->getColor());
     m_spTool->setSize(m_pSizeSettings->getSize());
+    emit toolChanged(m_spTool);
+}
+
+void MainToolsWidget::onChangeColor(const QColor& crColor)
+{
+    m_spTool->setColor(crColor);
+    emit toolChanged(m_spTool);
+}
+
+void MainToolsWidget::onChangeSize(int iSize)
+{
+    m_spTool->setSize(iSize);
     emit toolChanged(m_spTool);
 }
 
@@ -51,6 +65,10 @@ void MainToolsWidget::onOpen()
 
 void MainToolsWidget::initGui()
 {
+    auto vInstructions = get_all_drawing_instructions();
+    for (auto Instruction : vInstructions)
+        m_pToolsComboBox->addItem(QString::fromStdString(to_str(Instruction)));
+
     auto pLayout = new QHBoxLayout{this};
     pLayout->addWidget(m_pToolsComboBox);
     pLayout->addWidget(m_pSizeSettings);
@@ -67,9 +85,9 @@ void MainToolsWidget::createConnections()
 {
     bool bConnected = true;
 
-    bConnected &= static_cast<bool>(connect(m_pToolsComboBox, SIGNAL(activated(int)), SLOT(onChangeDrawingTool())));
-    bConnected &= static_cast<bool>(connect(m_pColorSettings, SIGNAL(colorSelected(QColor)), SLOT(onChangeDrawingTool())));
-    bConnected &= static_cast<bool>(connect(m_pSizeSettings, SIGNAL(sizeSelected(int)), SLOT(onChangeDrawingTool())));
+    bConnected &= static_cast<bool>(connect(m_pToolsComboBox, SIGNAL(activated(int)), SLOT(onSwitchTool(int))));
+    bConnected &= static_cast<bool>(connect(m_pColorSettings, SIGNAL(colorSelected(QColor)), SLOT(onChangeColor(QColor))));
+    bConnected &= static_cast<bool>(connect(m_pSizeSettings, SIGNAL(sizeSelected(int)), SLOT(onChangeSize(int))));
 
     bConnected &= static_cast<bool>(connect(m_pUndo, SIGNAL(clicked(bool)), SIGNAL(undo())));
     bConnected &= static_cast<bool>(connect(m_pRedo, SIGNAL(clicked(bool)), SIGNAL(redo())));

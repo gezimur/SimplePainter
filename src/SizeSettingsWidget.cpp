@@ -21,19 +21,13 @@ SizeSettingsWidget::SizeSettingsWidget()
 
 int SizeSettingsWidget::getSize() const noexcept
 {
-    return m_iSize;
+    return m_pSizeSlider->getValue();
 }
 
 void SizeSettingsWidget::onPopup()
 {
     auto GlobalPoint = mapToGlobal(m_pPopup->geometry().topLeft());
     m_pSettingsWidget->popup(GlobalPoint);
-}
-
-void SizeSettingsWidget::onConfirm()
-{
-    m_iSize = m_pSizeSlider->getValue();
-    emit sizeSelected(m_iSize);
 }
 
 BasePopupWidget* SizeSettingsWidget::makeSizeSettingsWidget()
@@ -43,14 +37,11 @@ BasePopupWidget* SizeSettingsWidget::makeSizeSettingsWidget()
     m_pSizeSlider = new BaseValueSlider("Size");
     m_pSizeSlider->setRange(1, 10);
 
-    auto pConfirm = new QPushButton{"Confirm"};
-
     auto pSettingsLayout = new QVBoxLayout{pSettingsWidget};
     pSettingsLayout->addWidget(m_pSizeSlider);
-    pSettingsLayout->addWidget(pConfirm);
 
     bool bConnected = true;
-    bConnected &= static_cast<bool>(connect(pConfirm, SIGNAL(clicked(bool)), SLOT(onConfirm())));
+    bConnected &= static_cast<bool>(connect(m_pSizeSlider, SIGNAL(valueSelected(int)), SIGNAL(sizeSelected(int))));
     assert(bConnected);
 
     return pSettingsWidget;

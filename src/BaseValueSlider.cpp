@@ -17,6 +17,7 @@ BaseValueSlider::BaseValueSlider(const QString& qstrDescription, const QString& 
 
     auto bConnection = true;
     bConnection &= static_cast<bool>(connect(m_pSlider, SIGNAL(valueChanged(int)), SLOT(onProcValueChanged(int))));
+    bConnection &= static_cast<bool>(connect(m_pSlider, SIGNAL(sliderReleased()), SLOT(onProcValueSelected())));
     assert(bConnection);
 }
 
@@ -39,8 +40,12 @@ int BaseValueSlider::getValue() const
     return m_pSlider->value();
 }
 
+void BaseValueSlider::onProcValueSelected()
+{
+    emit valueSelected(m_pSlider->value());
+}
+
 void BaseValueSlider::onProcValueChanged(int iValue)
 {
     m_pValue->setText(m_qstrValueFormat.arg(QString::number(iValue)));
-    emit valueChanged(iValue);
 }

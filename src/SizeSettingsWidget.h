@@ -20,12 +20,9 @@ signals:
 
 private slots:
     void onPopup();
-    void onConfirm();
 
 private:
     BasePopupWidget* makeSizeSettingsWidget();
-
-    int m_iSize;
 
     QPushButton* m_pPopup;
     BaseValueSlider* m_pSizeSlider;

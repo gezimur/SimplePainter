@@ -9,19 +9,6 @@
 
 class DrawingTool
 {
-protected:
-    enum drawing_tool
-    {
-        none = 0,
-        pen,
-        line,
-        square,
-        elipse,
-        fill
-    };
-
-    explicit DrawingTool(drawing_tool Type);
-
 public:
     void setSize(int iSize);
     void setColor(const QColor& crColor);
@@ -33,9 +20,7 @@ public:
     virtual std::shared_ptr<DrawingInstruction> getDrawingInstruction() const = 0;
 
 protected:
-    drawing_tool m_Type;
-
-    QColor m_Color;
-    int m_iSize;
+    QColor m_Color = QColor{0, 0, 0, 0};
+    int m_iSize = 1;
 };
 
