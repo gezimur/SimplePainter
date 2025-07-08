@@ -12,12 +12,9 @@ void LineDrawingInstruction::changeSecondPoint(const QPointF& crPoint)
 {
     std::vector<float> vData = {crPoint.x(), crPoint.y()};
 
-    QOpenGLBuffer Buffer;
-
-    Buffer.create();
     m_GLVertexBuffer.bind();
 
-    m_GLVertexBuffer.write(sizeof(float) * 2, vData.data(), sizeof(float) * 2);
+    m_GLVertexBuffer.write(sizeof(float) * vData.size(), vData.data(), sizeof(float) * vData.size());
 
     m_GLVertexBuffer.release();
 }

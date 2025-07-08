@@ -27,7 +27,9 @@ SOURCES += \
     $$PWD/src/WorkspacePainter.cpp \
     $$PWD/src/BasePopupWidget.cpp \
     $$PWD/src/BaseValueSlider.cpp \
-    src/drawing_tools.cpp
+    $$PWD/src/PenDrawingInstruction.cpp \
+    $$PWD/src/PenDrawingTool.cpp \
+    $$PWD/src/drawing_tools.cpp
 
 HEADERS += \
     $$PWD/src/MainWidget.h \
@@ -46,4 +48,6 @@ HEADERS += \
     $$PWD/src/WorkspacePainter.h \
     $$PWD/src/BasePopupWidget.h \
     $$PWD/src/BaseValueSlider.h \
-    src/drawing_tools.h
+    $$PWD/src/PenDrawingInstruction.h \
+    $$PWD/src/PenDrawingTool.h \
+    $$PWD/src/drawing_tools.h

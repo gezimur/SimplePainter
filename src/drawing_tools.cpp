@@ -3,13 +3,14 @@
 #include <cassert>
 
 #include "LineDrawingTool.h"
+#include "PenDrawingTool.h"
 
 std::shared_ptr<DrawingTool> make_tool(drawing_tools Type)
 {
     switch(Type)
     {
     case drawing_tools::pen:
-        return std::make_shared<LineDrawingTool>(); ///< @todo
+        return std::make_shared<PenDrawingTool>();
     case drawing_tools::line:
         return std::make_shared<LineDrawingTool>();
     case drawing_tools::square:

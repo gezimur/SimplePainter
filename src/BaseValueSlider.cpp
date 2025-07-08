@@ -25,6 +25,7 @@ void BaseValueSlider::setRange(int iMin, int iMax)
 {
     m_pSlider->blockSignals(true);
     m_pSlider->setRange(iMin, iMax);
+    onProcValueChanged(m_pSlider->value());
     m_pSlider->blockSignals(false);
 }
 
@@ -32,6 +33,7 @@ void BaseValueSlider::setValue(int iValue)
 {
     m_pSlider->blockSignals(true);
     m_pSlider->setValue(iValue);
+    onProcValueChanged(m_pSlider->value());
     m_pSlider->blockSignals(false);
 }
 
