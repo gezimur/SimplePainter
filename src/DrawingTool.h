@@ -19,6 +19,8 @@ public:
 
     virtual std::shared_ptr<DrawingInstruction> getDrawingInstruction() const = 0;
 
+    void draw(const QMatrix4x4& crMVP) const;
+
 protected:
     QColor m_Color = QColor{0, 0, 0, 0};
     int m_iSize = 1;

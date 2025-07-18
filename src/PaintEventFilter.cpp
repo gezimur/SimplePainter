@@ -23,13 +23,13 @@ bool PaintEventFilter::procMouseEvents(QObject* pWatched, QMouseEvent* pEvent)
 
     switch (pEvent->type()) {
     case QEvent::MouseButtonPress:
-        emit paintStarted(pEvent->pos());
+        emit press(pEvent->pos());
         return true;
     case QEvent::MouseMove:
-        emit paint(pEvent->pos());
+        emit move(pEvent->pos());
         return true;
     case QEvent::MouseButtonRelease:
-        emit paintFinished(pEvent->pos());
+        emit release(pEvent->pos());
         return true;
     default:
         return QObject::eventFilter(pWatched, pEvent);

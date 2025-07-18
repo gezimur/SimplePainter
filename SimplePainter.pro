@@ -24,12 +24,13 @@ SOURCES += \
     $$PWD/src/LineDrawingInstruction.cpp \
     $$PWD/src/make_gl_program.cpp \
     $$PWD/src/LineDrawingTool.cpp \
-    $$PWD/src/WorkspacePainter.cpp \
     $$PWD/src/BasePopupWidget.cpp \
     $$PWD/src/BaseValueSlider.cpp \
     $$PWD/src/PenDrawingInstruction.cpp \
     $$PWD/src/PenDrawingTool.cpp \
-    $$PWD/src/drawing_tools.cpp
+    $$PWD/src/drawing_tools.cpp \
+    $$PWD/src/ImageDrawingInstruction.cpp \
+    $$PWD/src/simple_painter_aux.cpp
 
 HEADERS += \
     $$PWD/src/MainWidget.h \
@@ -45,9 +46,10 @@ HEADERS += \
     $$PWD/src/LineDrawingInstruction.h \
     $$PWD/src/make_gl_program.h \
     $$PWD/src/LineDrawingTool.h \
-    $$PWD/src/WorkspacePainter.h \
     $$PWD/src/BasePopupWidget.h \
     $$PWD/src/BaseValueSlider.h \
     $$PWD/src/PenDrawingInstruction.h \
     $$PWD/src/PenDrawingTool.h \
-    $$PWD/src/drawing_tools.h
+    $$PWD/src/drawing_tools.h \
+    $$PWD/src/ImageDrawingInstruction.h \
+    $$PWD/src/simple_painter_aux.h

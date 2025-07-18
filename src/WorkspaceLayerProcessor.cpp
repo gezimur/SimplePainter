@@ -1,5 +1,10 @@
 #include "WorkspaceLayerProcessor.h"
 
+void WorkspaceLayerProcessor::setSheetSize(const QSize& crSize)
+{
+    m_spCachedImage = std::make_shared<ImageDrawingInstruction>(QRect{QPoint{0, 0}, crSize});
+}
+
 void WorkspaceLayerProcessor::addLayer(const std::string& strLayer)
 {
     auto it = findLayer(strLayer);
@@ -8,6 +13,7 @@ void WorkspaceLayerProcessor::addLayer(const std::string& strLayer)
         m_spActiveLayer = std::make_shared<WorkspaceLayer>(strLayer);
         m_vLayers.push_back(m_spActiveLayer);
     }
+    m_bChanges = true;
 }
 
 void WorkspaceLayerProcessor::removeLayer(const std::string& strLayer)
@@ -15,6 +21,7 @@ void WorkspaceLayerProcessor::removeLayer(const std::string& strLayer)
     auto it = findLayer(strLayer);
     if (m_vLayers.end() != it)
         m_vLayers.erase(it);
+    m_bChanges = true;
 }
 
 void WorkspaceLayerProcessor::selectLayer(const std::string& strLayer)
@@ -22,6 +29,7 @@ void WorkspaceLayerProcessor::selectLayer(const std::string& strLayer)
     auto it = findLayer(strLayer);
     if (m_vLayers.end() != it)
         m_spActiveLayer = *it;
+    m_bChanges = true;
 }
 
 void WorkspaceLayerProcessor::shuffleLayers(const std::vector<std::pair<std::string, bool>>& vLayers)
@@ -42,6 +50,7 @@ void WorkspaceLayerProcessor::shuffleLayers(const std::vector<std::pair<std::str
     }
 
     m_vLayers = vShuffledLayers;
+    m_bChanges = true;
 }
 
 std::vector<std::string> WorkspaceLayerProcessor::getLayersList() const
@@ -55,15 +64,51 @@ std::vector<std::string> WorkspaceLayerProcessor::getLayersList() const
     return vRes;
 }
 
-const std::shared_ptr<WorkspaceLayer>& WorkspaceLayerProcessor::getActiveLayer() const noexcept
+void WorkspaceLayerProcessor::undoActiveLayer()
 {
-    return m_spActiveLayer;
+    m_spActiveLayer->undo();
+    m_bChanges = true;
 }
 
-void WorkspaceLayerProcessor::drawVisible(const QMatrix4x4& crMVP)
+void WorkspaceLayerProcessor::redoActiveLayer()
 {
+    m_spActiveLayer->redo();
+    m_bChanges = true;
+}
+
+void WorkspaceLayerProcessor::addToActiveLayer(const std::shared_ptr<DrawingInstruction>& spInstruction)
+{
+    m_spActiveLayer->addInstruction(spInstruction);
+    m_bChanges = true;
+}
+
+bool WorkspaceLayerProcessor::hasChanges() const
+{
+    return m_bChanges;
+}
+
+void WorkspaceLayerProcessor::cacheVisible(const QMatrix4x4& crMVP)
+{
+    m_spCachedImage->bindFrameBuffer();
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
     for (const auto& spLayer : m_vLayers)
-        spLayer->draw(crMVP);
+    {
+        if (spLayer != m_spActiveLayer)
+            spLayer->draw(crMVP);
+    }
+    m_spActiveLayer->draw(crMVP);
+
+    m_spCachedImage->releaseFrameBuffer();
+
+    m_bChanges = false;
+}
+
+void WorkspaceLayerProcessor::drawCached(const QMatrix4x4& MVP) const
+{
+    m_spCachedImage->excecute(MVP);
 }
 
 std::vector<std::shared_ptr<WorkspaceLayer>>::const_iterator WorkspaceLayerProcessor::findLayer(const std::string& strLayer) const

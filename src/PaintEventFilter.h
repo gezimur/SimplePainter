@@ -11,9 +11,9 @@ class PaintEventFilter: public QObject
     Q_OBJECT
 
 signals:
-    void paintStarted(const QPoint& crPoint);
-    void paint(const QPoint& crPoint);
-    void paintFinished(const QPoint& crPoint);
+    void press(const QPoint& crPoint);
+    void move(const QPoint& crPoint);
+    void release(const QPoint& crPoint);
 
     void zoomRequested(double);
 

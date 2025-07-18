@@ -32,7 +32,6 @@ QMatrix4x4 make_model()
 }
 
 WorkspaceWidget::WorkspaceWidget(const QSize& crFrameSize)
-    : m_Painter{crFrameSize}
 {
     createConnections();
 
@@ -68,19 +67,17 @@ std::vector<std::string> WorkspaceWidget::getLayersList() const
 
 void WorkspaceWidget::onUndo()
 {
-    assert(m_LayersProcessor.getActiveLayer());
-    m_LayersProcessor.getActiveLayer()->undo();
+    m_LayersProcessor.undoActiveLayer();
 }
 
 void WorkspaceWidget::onRedo()
 {
-    assert(m_LayersProcessor.getActiveLayer());
-    m_LayersProcessor.getActiveLayer()->redo();
+    m_LayersProcessor.redoActiveLayer();
 }
 
 void WorkspaceWidget::onUpdateTool(const std::shared_ptr<DrawingTool>& spTool)
 {
-    m_Painter.setTool(spTool);
+    m_spTool = spTool;
 }
 
 void WorkspaceWidget::onZoom(double dZoom)
@@ -88,10 +85,26 @@ void WorkspaceWidget::onZoom(double dZoom)
 
 }
 
-void WorkspaceWidget::onAddInstruction(std::shared_ptr<DrawingInstruction> spInstruction)
+void WorkspaceWidget::onProcPress(const QPoint& crPoint)
 {
-    if (spInstruction)
-        m_LayersProcessor.getActiveLayer()->addInstruction(spInstruction);
+    if (m_spTool)
+        m_spTool->startPainting(mapToFrame(crPoint));
+}
+
+void WorkspaceWidget::onProcMove(const QPoint& crPoint)
+{
+    if (m_spTool)
+        m_spTool->paint(mapToFrame(crPoint));
+}
+
+void WorkspaceWidget::onProcRelease(const QPoint& crPoint)
+{
+    if (!m_spTool)
+        return ;
+
+    auto spResult = m_spTool->finishPainting(mapToFrame(crPoint));
+    if (spResult)
+        m_LayersProcessor.addToActiveLayer(spResult);
 }
 
 void WorkspaceWidget::initializeGL()
@@ -105,23 +118,32 @@ void WorkspaceWidget::initializeGL()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     m_LayersProcessor.addLayer("Default");
+    m_LayersProcessor.setSheetSize(size());
 }
 
 void WorkspaceWidget::resizeGL(int w, int h)
 {
     glViewport(0, 0, w, h);
-    m_Painter.setSize(QSize{w, h});
 }
 
 void WorkspaceWidget::paintGL()
 {
+    if (m_LayersProcessor.hasChanges())
+    {
+        auto BaseMVP = make_projection(size()) * make_view() * make_model();
+
+        m_LayersProcessor.cacheVisible(BaseMVP);
+    }
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
     auto MVP = make_projection(size()) * make_view() * make_model();
 
-    m_LayersProcessor.drawVisible(MVP);
-    m_Painter.drawCurrent(MVP);
+    m_LayersProcessor.drawCached(MVP);
+
+    if (m_spTool)
+        m_spTool->draw(MVP);
 
     update();
 }
@@ -130,11 +152,16 @@ void WorkspaceWidget::createConnections()
 {
     bool bConnected = true;
 
-    bConnected &= static_cast<bool>(connect(&m_PaintEventFilter, SIGNAL(paintStarted(const QPoint&)), &m_Painter, SLOT(onStartPaint(const QPoint&))));
-    bConnected &= static_cast<bool>(connect(&m_PaintEventFilter, SIGNAL(paint(const QPoint&)), &m_Painter, SLOT(onPaint(const QPoint&))));
-    bConnected &= static_cast<bool>(connect(&m_PaintEventFilter, SIGNAL(paintFinished(const QPoint&)), &m_Painter, SLOT(onFinishPaint(const QPoint&))));
-    bConnected &= static_cast<bool>(connect(&m_Painter, SIGNAL(paintFinished(std::shared_ptr<DrawingInstruction>)), SLOT(onAddInstruction(std::shared_ptr<DrawingInstruction>))));
+    bConnected &= static_cast<bool>(connect(&m_PaintEventFilter, SIGNAL(press(const QPoint&)), SLOT(onProcPress(const QPoint&))));
+    bConnected &= static_cast<bool>(connect(&m_PaintEventFilter, SIGNAL(move(const QPoint&)), SLOT(onProcMove(const QPoint&))));
+    bConnected &= static_cast<bool>(connect(&m_PaintEventFilter, SIGNAL(release(const QPoint&)), SLOT(onProcRelease(const QPoint&))));
+
     bConnected &= static_cast<bool>(connect(&m_PaintEventFilter, SIGNAL(zoomRequested(double)), SLOT(onZoom(double))));
 
     assert(bConnected);
+}
+
+QPoint WorkspaceWidget::mapToFrame(const QPoint& crPoint) const
+{
+    return QPoint{crPoint.x(), size().height() - crPoint.y()};
 }

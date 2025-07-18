@@ -5,7 +5,6 @@
 
 #include "WorkspaceLayerProcessor.h"
 #include "PaintEventFilter.h"
-#include "WorkspacePainter.h"
 
 class WorkspaceWidget: public QOpenGLWidget
 {
@@ -32,7 +31,9 @@ public slots:
     void onZoom(double dZoom);
 
 private slots:
-    void onAddInstruction(std::shared_ptr<DrawingInstruction> spInstruction);
+    void onProcPress(const QPoint& crPoint);
+    void onProcMove(const QPoint& crPoint);
+    void onProcRelease(const QPoint& crPoint);
 
 private:
     void initializeGL() final;
@@ -41,9 +42,11 @@ private:
 
     void createConnections();
 
-    WorkspacePainter m_Painter;
+    QPoint mapToFrame(const QPoint& crPoint) const;
+
     WorkspaceLayerProcessor m_LayersProcessor;
-    std::shared_ptr<WorkspaceLayer> m_spActiveLayer;
+
+    std::shared_ptr<DrawingTool> m_spTool;
 
     PaintEventFilter m_PaintEventFilter;
 };
