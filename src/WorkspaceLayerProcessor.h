@@ -16,6 +16,7 @@ public:
     void addLayer(const std::string& strLayer);
     void removeLayer(const std::string& strLayer);
     void selectLayer(const std::string& strLayer);
+    void renameLayer(const std::string& strPrev, const std::string& strNew);
 
     void shuffleLayers(const std::vector<std::pair<std::string, bool>>& vLayers);
     std::vector<std::string> getLayersList() const;

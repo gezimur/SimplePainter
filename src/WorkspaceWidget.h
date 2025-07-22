@@ -13,18 +13,18 @@ class WorkspaceWidget: public QOpenGLWidget
 public:
     explicit WorkspaceWidget(const QSize& crFrameSize);
 
-    void addLayer(const std::string& strLayer);
-    void removeLayer(const std::string& strLayer);
-    void selectLayer(const std::string& strLayer);
-
-    void shuffleLayers(const std::vector<std::pair<std::string, bool>>& vLayers);
-    std::vector<std::string> getLayersList() const;
-
 signals:
     void paintStarted();
     void paintFinished();
 
 public slots:
+    void onAddLayer(const std::string& strLayer);
+    void onRemoveLayer(const std::string& strLayer);
+    void onSelectLayer(const std::string& strLayer);
+    void onRenameLayer(const std::string& strPrev, const std::string& strNew);
+
+    void onShuffleLayers(const std::vector<std::pair<std::string, bool>>& vLayers);
+
     void onUndo();
     void onRedo();
     void onUpdateTool(const std::shared_ptr<DrawingTool>& spTool);

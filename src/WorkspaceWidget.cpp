@@ -40,29 +40,29 @@ WorkspaceWidget::WorkspaceWidget(const QSize& crFrameSize)
     installEventFilter(&m_PaintEventFilter);
 }
 
-void WorkspaceWidget::addLayer(const std::string& strLayer)
+void WorkspaceWidget::onAddLayer(const std::string& strLayer)
 {
     m_LayersProcessor.addLayer(strLayer);
 }
 
-void WorkspaceWidget::removeLayer(const std::string& strLayer)
+void WorkspaceWidget::onRemoveLayer(const std::string& strLayer)
 {
     m_LayersProcessor.removeLayer(strLayer);
 }
 
-void WorkspaceWidget::selectLayer(const std::string& strLayer)
+void WorkspaceWidget::onSelectLayer(const std::string& strLayer)
 {
     m_LayersProcessor.selectLayer(strLayer);
 }
 
-void WorkspaceWidget::shuffleLayers(const std::vector<std::pair<std::string, bool>>& vLayers)
+void WorkspaceWidget::onRenameLayer(const std::string& strPrev, const std::string& strNew)
 {
-    m_LayersProcessor.shuffleLayers(vLayers);
+    m_LayersProcessor.renameLayer(strPrev, strNew);
 }
 
-std::vector<std::string> WorkspaceWidget::getLayersList() const
+void WorkspaceWidget::onShuffleLayers(const std::vector<std::pair<std::string, bool>>& vLayers)
 {
-    return m_LayersProcessor.getLayersList();
+    m_LayersProcessor.shuffleLayers(vLayers);
 }
 
 void WorkspaceWidget::onUndo()
@@ -117,7 +117,6 @@ void WorkspaceWidget::initializeGL()
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    m_LayersProcessor.addLayer("Default");
     m_LayersProcessor.setSheetSize(size());
 }
 

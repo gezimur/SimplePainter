@@ -30,7 +30,9 @@ SOURCES += \
     $$PWD/src/PenDrawingTool.cpp \
     $$PWD/src/drawing_tools.cpp \
     $$PWD/src/ImageDrawingInstruction.cpp \
-    $$PWD/src/simple_painter_aux.cpp
+    $$PWD/src/simple_painter_aux.cpp \
+    src/LayerListItemWidget.cpp \
+    src/LayersListWidget.cpp
 
 HEADERS += \
     $$PWD/src/MainWidget.h \
@@ -52,4 +54,6 @@ HEADERS += \
     $$PWD/src/PenDrawingTool.h \
     $$PWD/src/drawing_tools.h \
     $$PWD/src/ImageDrawingInstruction.h \
-    $$PWD/src/simple_painter_aux.h
+    $$PWD/src/simple_painter_aux.h \
+    src/LayerListItemWidget.h \
+    src/LayersListWidget.h

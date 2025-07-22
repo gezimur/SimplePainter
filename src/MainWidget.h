@@ -4,6 +4,7 @@
 
 class WorkspaceWidget;
 class MainToolsWidget;
+class LayersListWidget;
 
 class MainWidget : public QWidget
 {
@@ -18,4 +19,5 @@ private:
 
     WorkspaceWidget* m_pWorkspace;
     MainToolsWidget* m_pToolsWidget;
+    LayersListWidget* m_pLayersList;
 };

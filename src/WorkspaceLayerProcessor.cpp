@@ -32,6 +32,13 @@ void WorkspaceLayerProcessor::selectLayer(const std::string& strLayer)
     m_bChanges = true;
 }
 
+void WorkspaceLayerProcessor::renameLayer(const std::string& strPrev, const std::string& strNew)
+{
+    auto it = findLayer(strPrev);
+    if (m_vLayers.end() != it)
+        (*it)->setName(strNew);
+}
+
 void WorkspaceLayerProcessor::shuffleLayers(const std::vector<std::pair<std::string, bool>>& vLayers)
 {
     assert(vLayers.size() == vLayers.size());
@@ -66,19 +73,22 @@ std::vector<std::string> WorkspaceLayerProcessor::getLayersList() const
 
 void WorkspaceLayerProcessor::undoActiveLayer()
 {
-    m_spActiveLayer->undo();
+    if (m_spActiveLayer)
+        m_spActiveLayer->undo();
     m_bChanges = true;
 }
 
 void WorkspaceLayerProcessor::redoActiveLayer()
 {
-    m_spActiveLayer->redo();
+    if (m_spActiveLayer)
+        m_spActiveLayer->redo();
     m_bChanges = true;
 }
 
 void WorkspaceLayerProcessor::addToActiveLayer(const std::shared_ptr<DrawingInstruction>& spInstruction)
 {
-    m_spActiveLayer->addInstruction(spInstruction);
+    if (m_spActiveLayer)
+        m_spActiveLayer->addInstruction(spInstruction);
     m_bChanges = true;
 }
 
@@ -99,7 +109,8 @@ void WorkspaceLayerProcessor::cacheVisible(const QMatrix4x4& crMVP)
         if (spLayer != m_spActiveLayer)
             spLayer->draw(crMVP);
     }
-    m_spActiveLayer->draw(crMVP);
+    if (m_spActiveLayer)
+        m_spActiveLayer->draw(crMVP);
 
     m_spCachedImage->releaseFrameBuffer();
 
