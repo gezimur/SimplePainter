@@ -1,6 +1,6 @@
 #include "PenDrawingTool.h"
 
-void PenDrawingTool::startPainting(const QPoint& crPoint)
+void PenDrawingTool::startPainting(const QPoint& crPoint, WorkspaceLayerProcessor& /*rLayers*/)
 {
     m_spLine = std::make_shared<PenDrawingInstruction>();
     m_spLine->setColor(m_Color);
@@ -8,7 +8,7 @@ void PenDrawingTool::startPainting(const QPoint& crPoint)
     m_PrevPoint = crPoint;
 }
 
-void PenDrawingTool::paint(const QPoint& crPoint)
+void PenDrawingTool::paint(const QPoint& crPoint, WorkspaceLayerProcessor& /*rLayers*/)
 {
     if (crPoint == m_PrevPoint)
         return ;
@@ -19,9 +19,9 @@ void PenDrawingTool::paint(const QPoint& crPoint)
     m_PrevPoint = crPoint;
 }
 
-std::shared_ptr<DrawingInstruction> PenDrawingTool::finishPainting(const QPoint& crPoint)
+std::shared_ptr<DrawingInstruction> PenDrawingTool::finishPainting(const QPoint& crPoint, WorkspaceLayerProcessor& rLayers)
 {
-    paint(crPoint);
+    paint(crPoint, rLayers);
     m_spLine->shrinkToFit();
 
     m_PrevPoint = QPoint{};

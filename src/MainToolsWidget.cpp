@@ -10,8 +10,7 @@
 #include "drawing_tools.h"
 
 MainToolsWidget::MainToolsWidget()
-    : m_spTool{std::make_shared<LineDrawingTool>()},
-      m_pColorSettings{new ColorSettingsWidget},
+    : m_pColorSettings{new ColorSettingsWidget},
       m_pSizeSettings{new SizeSettingsWidget},
       m_pToolsComboBox{new QComboBox},
       m_pUndo{new QPushButton{"Undo"}},
@@ -21,6 +20,9 @@ MainToolsWidget::MainToolsWidget()
 {
     initGui();
     createConnections();
+
+    m_pToolsComboBox->setCurrentIndex(static_cast<int>(drawing_tools::pen));
+    onSwitchTool(static_cast<int>(drawing_tools::pen));
 }
 
 void MainToolsWidget::onDisable()

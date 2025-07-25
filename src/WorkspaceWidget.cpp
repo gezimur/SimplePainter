@@ -1,6 +1,6 @@
 #include "WorkspaceWidget.h"
 
-#include "LineDrawingTool.h" ///< @todo remove
+#include <QGLPixelBuffer>
 
 QMatrix4x4 make_projection(const QSize& crSize)
 {
@@ -88,13 +88,13 @@ void WorkspaceWidget::onZoom(double dZoom)
 void WorkspaceWidget::onProcPress(const QPoint& crPoint)
 {
     if (m_spTool)
-        m_spTool->startPainting(mapToFrame(crPoint));
+        m_spTool->startPainting(mapToFrame(crPoint), m_LayersProcessor);
 }
 
 void WorkspaceWidget::onProcMove(const QPoint& crPoint)
 {
     if (m_spTool)
-        m_spTool->paint(mapToFrame(crPoint));
+        m_spTool->paint(mapToFrame(crPoint), m_LayersProcessor);
 }
 
 void WorkspaceWidget::onProcRelease(const QPoint& crPoint)
@@ -102,7 +102,7 @@ void WorkspaceWidget::onProcRelease(const QPoint& crPoint)
     if (!m_spTool)
         return ;
 
-    auto spResult = m_spTool->finishPainting(mapToFrame(crPoint));
+    auto spResult = m_spTool->finishPainting(mapToFrame(crPoint), m_LayersProcessor);
     if (spResult)
         m_LayersProcessor.addToActiveLayer(spResult);
 }
@@ -135,7 +135,7 @@ void WorkspaceWidget::paintGL()
     }
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
     auto MVP = make_projection(size()) * make_view() * make_model();
 

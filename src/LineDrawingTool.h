@@ -6,9 +6,9 @@
 class LineDrawingTool: public DrawingTool
 {
 public:
-    void startPainting(const QPoint& crPoint) final;
-    void paint(const QPoint& crPoint) final;
-    std::shared_ptr<DrawingInstruction> finishPainting(const QPoint& crPoint) final;
+    void startPainting(const QPoint& crPoint, WorkspaceLayerProcessor& rLayers) final;
+    void paint(const QPoint& crPoint, WorkspaceLayerProcessor& rLayers) final;
+    std::shared_ptr<DrawingInstruction> finishPainting(const QPoint& crPoint, WorkspaceLayerProcessor& rLayers) final;
 
     std::shared_ptr<DrawingInstruction> getDrawingInstruction() const final;
 

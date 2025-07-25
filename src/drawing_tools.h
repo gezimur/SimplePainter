@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include <QSize>
+
 class DrawingTool;
 
 enum class drawing_tools
@@ -14,6 +16,7 @@ enum class drawing_tools
     square,
     elipse,
     fill,
+    ///< @todo image
 
     cnt
 };

@@ -6,6 +6,7 @@
 #include <QColor>
 
 #include "DrawingInstruction.h"
+#include "WorkspaceLayerProcessor.h"
 
 class DrawingTool
 {
@@ -13,9 +14,9 @@ public:
     void setSize(int iSize);
     void setColor(const QColor& crColor);
 
-    virtual void startPainting(const QPoint& crPoint) = 0;
-    virtual void paint(const QPoint& crPoint) = 0;
-    virtual std::shared_ptr<DrawingInstruction> finishPainting(const QPoint& crPoint) = 0;
+    virtual void startPainting(const QPoint& crPoint, WorkspaceLayerProcessor& rLayers) = 0;
+    virtual void paint(const QPoint& crPoint, WorkspaceLayerProcessor& rLayers) = 0;
+    virtual std::shared_ptr<DrawingInstruction> finishPainting(const QPoint& crPoint, WorkspaceLayerProcessor& rLayers) = 0;
 
     virtual std::shared_ptr<DrawingInstruction> getDrawingInstruction() const = 0;
 

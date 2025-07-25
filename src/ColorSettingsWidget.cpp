@@ -8,7 +8,8 @@
 #include "BaseValueSlider.h"
 
 ColorSettingsWidget::ColorSettingsWidget()
-    : m_pPopup{new QPushButton{"Color"}},
+    : m_Color{0,0,0},
+      m_pPopup{new QPushButton{"Color"}},
       m_pSettingsWidget{makeColorSettingsWidget()}
 {
     auto pLayout = new QVBoxLayout{this};

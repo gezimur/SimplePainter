@@ -102,7 +102,7 @@ void WorkspaceLayerProcessor::cacheVisible(const QMatrix4x4& crMVP)
     m_spCachedImage->bindFrameBuffer();
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
     for (const auto& spLayer : m_vLayers)
     {
@@ -120,6 +120,11 @@ void WorkspaceLayerProcessor::cacheVisible(const QMatrix4x4& crMVP)
 void WorkspaceLayerProcessor::drawCached(const QMatrix4x4& MVP) const
 {
     m_spCachedImage->excecute(MVP);
+}
+
+QImage WorkspaceLayerProcessor::getCached() const
+{
+    return m_spCachedImage->getImage();
 }
 
 std::vector<std::shared_ptr<WorkspaceLayer>>::const_iterator WorkspaceLayerProcessor::findLayer(const std::string& strLayer) const

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QOpenGLFramebufferObject>
+#include <QImage>
 
 #include "DrawingInstruction.h"
 
@@ -12,6 +13,8 @@ public:
     void bindFrameBuffer();
     void releaseFrameBuffer();
 
+    QImage getImage() const;
+
 private:
     void bind(const QMatrix4x4& crMVP) final;
     void release() final;
@@ -20,6 +23,7 @@ private:
 
     QOpenGLBuffer m_ImageVertexBuffer;
     QOpenGLFramebufferObject m_FrameBuffer;
+    QImage m_Img;
 
     int m_iImageVertexLocation;
     int m_iImageSamplerLocation;

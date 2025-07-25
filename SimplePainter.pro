@@ -31,6 +31,8 @@ SOURCES += \
     $$PWD/src/drawing_tools.cpp \
     $$PWD/src/ImageDrawingInstruction.cpp \
     $$PWD/src/simple_painter_aux.cpp \
+    src/FillDrawingInstruction.cpp \
+    src/FillDrawingTool.cpp \
     src/LayerListItemWidget.cpp \
     src/LayersListWidget.cpp
 
@@ -55,5 +57,7 @@ HEADERS += \
     $$PWD/src/drawing_tools.h \
     $$PWD/src/ImageDrawingInstruction.h \
     $$PWD/src/simple_painter_aux.h \
+    src/FillDrawingInstruction.h \
+    src/FillDrawingTool.h \
     src/LayerListItemWidget.h \
     src/LayersListWidget.h
