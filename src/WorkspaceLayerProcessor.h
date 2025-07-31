@@ -29,6 +29,8 @@ public:
     void cacheVisible(const QMatrix4x4& crMVP);
     void drawCached(const QMatrix4x4& MVP) const;
 
+    QImage getCached() const;
+
 private:
     std::vector<std::shared_ptr<WorkspaceLayer>>::const_iterator findLayer(const std::string& strLayer) const;
 

@@ -23,7 +23,13 @@ void ImageDrawingInstruction::bindFrameBuffer()
 
 void ImageDrawingInstruction::releaseFrameBuffer()
 {
+    m_Img = m_FrameBuffer.toImage(); ///<@todo remove
     m_FrameBuffer.release();
+}
+
+QImage ImageDrawingInstruction::getImage() const
+{
+    return m_Img;
 }
 
 void ImageDrawingInstruction::bind(const QMatrix4x4& crMVP)

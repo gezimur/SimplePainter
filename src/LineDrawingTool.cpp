@@ -1,19 +1,19 @@
 #include "LineDrawingTool.h"
 
-void LineDrawingTool::startPainting(const QPoint& crPoint)
+void LineDrawingTool::startPainting(const QPoint& crPoint, WorkspaceLayerProcessor& /*rLayers*/)
 {
     m_spLine = std::make_shared<LineDrawingInstruction>(crPoint, crPoint);
     m_spLine->setColor(m_Color);
     m_spLine->setSize(m_iSize);
 }
 
-void LineDrawingTool::paint(const QPoint& crPoint)
+void LineDrawingTool::paint(const QPoint& crPoint, WorkspaceLayerProcessor& /*rLayers*/)
 {
     if (m_spLine)
         m_spLine->changeSecondPoint(crPoint);
 }
 
-std::shared_ptr<DrawingInstruction> LineDrawingTool::finishPainting(const QPoint& crPoint)
+std::shared_ptr<DrawingInstruction> LineDrawingTool::finishPainting(const QPoint& crPoint, WorkspaceLayerProcessor& /*rLayers*/)
 {
     if (m_spLine)
         m_spLine->changeSecondPoint(crPoint);

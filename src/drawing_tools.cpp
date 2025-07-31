@@ -4,6 +4,7 @@
 
 #include "LineDrawingTool.h"
 #include "PenDrawingTool.h"
+#include "FillDrawingTool.h"
 
 std::shared_ptr<DrawingTool> make_tool(drawing_tools Type)
 {
@@ -18,7 +19,7 @@ std::shared_ptr<DrawingTool> make_tool(drawing_tools Type)
     case drawing_tools::elipse:
         return std::make_shared<LineDrawingTool>(); ///< @todo
     case drawing_tools::fill:
-        return std::make_shared<LineDrawingTool>(); ///< @todo
+        return std::make_shared<FillDrawingTool>();
     default:
     {
         assert("Invalid tool passed");

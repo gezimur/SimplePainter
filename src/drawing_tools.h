@@ -14,6 +14,7 @@ enum class drawing_tools
     square,
     elipse,
     fill,
+    ///< @todo image
 
     cnt
 };

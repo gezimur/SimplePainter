@@ -1,7 +1,5 @@
 #include "WorkspaceWidget.h"
 
-#include "LineDrawingTool.h" ///< @todo remove
-
 QMatrix4x4 make_projection(const QSize& crSize)
 {
     QMatrix4x4 Result;
@@ -88,13 +86,13 @@ void WorkspaceWidget::onZoom(double dZoom)
 void WorkspaceWidget::onProcPress(const QPoint& crPoint)
 {
     if (m_spTool)
-        m_spTool->startPainting(mapToFrame(crPoint));
+        m_spTool->startPainting(mapToFrame(crPoint), m_LayersProcessor);
 }
 
 void WorkspaceWidget::onProcMove(const QPoint& crPoint)
 {
     if (m_spTool)
-        m_spTool->paint(mapToFrame(crPoint));
+        m_spTool->paint(mapToFrame(crPoint), m_LayersProcessor);
 }
 
 void WorkspaceWidget::onProcRelease(const QPoint& crPoint)
@@ -102,7 +100,7 @@ void WorkspaceWidget::onProcRelease(const QPoint& crPoint)
     if (!m_spTool)
         return ;
 
-    auto spResult = m_spTool->finishPainting(mapToFrame(crPoint));
+    auto spResult = m_spTool->finishPainting(mapToFrame(crPoint), m_LayersProcessor);
     if (spResult)
         m_LayersProcessor.addToActiveLayer(spResult);
 }

@@ -122,6 +122,11 @@ void WorkspaceLayerProcessor::drawCached(const QMatrix4x4& MVP) const
     m_spCachedImage->excecute(MVP);
 }
 
+QImage WorkspaceLayerProcessor::getCached() const
+{
+    return m_spCachedImage->getImage();
+}
+
 std::vector<std::shared_ptr<WorkspaceLayer>>::const_iterator WorkspaceLayerProcessor::findLayer(const std::string& strLayer) const
 {
     return std::find_if(m_vLayers.begin(), m_vLayers.end(), [strLayer](const std::shared_ptr<WorkspaceLayer>& spLayer)

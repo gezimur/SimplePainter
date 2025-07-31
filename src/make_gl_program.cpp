@@ -116,6 +116,16 @@ QString get_pen_fragment_code()
     return get_line_fragment_code();
 }
 
+QString get_fill_vertex_code()
+{
+    return get_line_vertex_code();
+}
+
+QString get_fill_fragment_code()
+{
+    return get_line_fragment_code();
+}
+
 std::unique_ptr<QOpenGLShaderProgram> make_gl_program(const QString& qstrVertexCode, const QString& qstrFragmentCode)
 {
     auto pVertexShader = new QOpenGLShader{QOpenGLShader::Vertex};
@@ -145,4 +155,9 @@ std::unique_ptr<QOpenGLShaderProgram> make_gl_program_for_pen()
 std::unique_ptr<QOpenGLShaderProgram> make_gl_program_for_image()
 {
     return make_gl_program(get_image_vertex_code(), get_image_fragment_code());
+}
+
+std::unique_ptr<QOpenGLShaderProgram> make_gl_program_for_fill()
+{
+    return make_gl_program(get_fill_vertex_code(), get_fill_fragment_code());
 }
