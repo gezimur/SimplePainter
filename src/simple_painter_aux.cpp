@@ -39,3 +39,9 @@ std::vector<QPointF> make_image_points(const QRectF& crRect)
     return std::vector<QPointF>{crRect.topLeft(), crRect.topRight(), crRect.bottomRight(),
                                 crRect.topLeft(), crRect.bottomRight(), crRect.bottomLeft()};
 }
+
+void clear_current_gl()
+{
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}

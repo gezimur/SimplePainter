@@ -16,6 +16,8 @@ class MainToolsWidget: public QWidget
 public:
     MainToolsWidget();
 
+    const std::shared_ptr<DrawingTool>& getTool() const;
+
 signals:
     void toolChanged(std::shared_ptr<DrawingTool> spTool);
 

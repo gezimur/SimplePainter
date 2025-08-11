@@ -8,7 +8,8 @@
 #include "BaseValueSlider.h"
 
 ColorSettingsWidget::ColorSettingsWidget()
-    : m_pPopup{new QPushButton{"Color"}},
+    : m_Color{255,255,255},
+      m_pPopup{new QPushButton{"Color"}},
       m_pSettingsWidget{makeColorSettingsWidget()}
 {
     auto pLayout = new QVBoxLayout{this};
@@ -73,9 +74,9 @@ BasePopupWidget* ColorSettingsWidget::makeColorSettingsWidget()
 {
     auto pSettingsWidget = new BasePopupWidget;
 
-    auto pRed = makeColorComponentSlider(color_components::red);
-    auto pGreen = makeColorComponentSlider(color_components::green);
-    auto pBlue = makeColorComponentSlider(color_components::blue);
+    auto pRed = makeColorComponentSlider(m_Color.red(), color_components::red);
+    auto pGreen = makeColorComponentSlider(m_Color.green(), color_components::green);
+    auto pBlue = makeColorComponentSlider(m_Color.blue(),color_components::blue);
     auto pConfirm = new QPushButton{"Confirm"};
 
     auto pSettingsLayout = new QVBoxLayout{pSettingsWidget};
@@ -91,10 +92,11 @@ BasePopupWidget* ColorSettingsWidget::makeColorSettingsWidget()
     return pSettingsWidget;
 }
 
-BaseValueSlider* ColorSettingsWidget::makeColorComponentSlider(color_components Component)
+BaseValueSlider* ColorSettingsWidget::makeColorComponentSlider(int iDefaultValue, color_components Component)
 {
     auto pSlider = new BaseValueSlider(getColorComponentName(Component));
     pSlider->setRange(0, 255);
+    pSlider->setValue(iDefaultValue);
 
     bool bConnected = true;
     bConnected &= static_cast<bool>(connect(pSlider, &BaseValueSlider::valueSelected, this, [this, Component](int iValue)

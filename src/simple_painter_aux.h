@@ -13,3 +13,5 @@ int get_vertex_coord_size();
 QOpenGLBuffer make_vertex_buffer(std::vector<QPointF> vVertex);
 
 std::vector<QPointF> make_image_points(const QRectF& crRect);
+
+void clear_current_gl();

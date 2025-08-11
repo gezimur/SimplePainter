@@ -1,5 +1,7 @@
 #include "WorkspaceLayerProcessor.h"
 
+#include "simple_painter_aux.h"
+
 void WorkspaceLayerProcessor::setSheetSize(const QSize& crSize)
 {
     m_spCachedImage = std::make_shared<ImageDrawingInstruction>(QRect{QPoint{0, 0}, crSize});
@@ -101,8 +103,7 @@ void WorkspaceLayerProcessor::cacheVisible(const QMatrix4x4& crMVP)
 {
     m_spCachedImage->bindFrameBuffer();
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    clear_current_gl();
 
     for (const auto& spLayer : m_vLayers)
     {

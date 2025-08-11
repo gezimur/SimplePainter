@@ -35,7 +35,7 @@ private:
     QString getColorComponentName(color_components Component) const;
 
     BasePopupWidget* makeColorSettingsWidget();
-    BaseValueSlider* makeColorComponentSlider(color_components Component);
+    BaseValueSlider* makeColorComponentSlider(int iDefaultValue, color_components Component);
 
     QColor m_Color;
 

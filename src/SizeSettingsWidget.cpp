@@ -36,6 +36,7 @@ BasePopupWidget* SizeSettingsWidget::makeSizeSettingsWidget()
 
     m_pSizeSlider = new BaseValueSlider("Size");
     m_pSizeSlider->setRange(1, 10);
+    m_pSizeSlider->setValue(1);
 
     auto pSettingsLayout = new QVBoxLayout{pSettingsWidget};
     pSettingsLayout->addWidget(m_pSizeSlider);

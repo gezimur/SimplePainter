@@ -14,6 +14,8 @@ MainWidget::MainWidget()
 {
     initGui();
     createConnections();
+
+    m_pWorkspace->onUpdateTool(m_pToolsWidget->getTool());
 }
 
 void MainWidget::initGui()

@@ -1,5 +1,7 @@
 #include "WorkspaceWidget.h"
 
+#include "simple_painter_aux.h"
+
 QMatrix4x4 make_projection(const QSize& crSize)
 {
     QMatrix4x4 Result;
@@ -112,8 +114,7 @@ void WorkspaceWidget::initializeGL()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
 
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    clear_current_gl();
 
     m_LayersProcessor.setSheetSize(size());
 }
@@ -132,8 +133,7 @@ void WorkspaceWidget::paintGL()
         m_LayersProcessor.cacheVisible(BaseMVP);
     }
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    clear_current_gl();
 
     auto MVP = make_projection(size()) * make_view() * make_model();
 
