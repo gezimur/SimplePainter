@@ -1,7 +1,5 @@
 #include "PenDrawingInstruction.h"
 
-#include <iostream>
-
 #include "make_gl_program.h"
 
 PenDrawingInstruction::PenDrawingInstruction()

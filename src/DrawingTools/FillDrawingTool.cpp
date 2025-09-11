@@ -1,6 +1,5 @@
 #include "FillDrawingTool.h"
 
-#include <iostream>
 #include <queue>
 
 #include <QGLPixelBuffer>
@@ -12,7 +11,6 @@ std::vector<QPoint> fill_color_bfs(QImage&& rvImg, const QColor& crFillColor, co
 
     std::vector<QPoint> vRes{crPoint};
     const auto Color = Img.pixel(crPoint);
-
 
     std::queue<QPoint> vCheck;
     vCheck.push(crPoint);

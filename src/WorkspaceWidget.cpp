@@ -1,6 +1,6 @@
 #include "WorkspaceWidget.h"
 
-#include "simple_painter_aux.h"
+#include "DrawingTools/simple_painter_aux.h"
 
 WorkspaceWidget::WorkspaceWidget(const QSize& crFrameSize)
     : m_Scene{crFrameSize}

@@ -1,7 +1,5 @@
 #include "DrawingInstruction.h"
 
-#include <iostream>
-
 #include "make_gl_program.h"
 #include "simple_painter_aux.h"
 

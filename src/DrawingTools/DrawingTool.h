@@ -6,7 +6,7 @@
 #include <QColor>
 
 #include "DrawingInstruction.h"
-#include "WorkspaceLayerProcessor.h"
+#include "../WorkspaceLayerProcessor.h"
 
 class DrawingTool
 {

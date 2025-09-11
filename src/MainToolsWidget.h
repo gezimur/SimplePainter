@@ -2,7 +2,7 @@
 
 #include <QWidget>
 
-#include "DrawingTool.h"
+#include "DrawingTools/DrawingTool.h"
 
 class ColorSettingsWidget;
 class SizeSettingsWidget;

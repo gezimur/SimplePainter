@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-#include "DrawingInstruction.h"
+#include "DrawingTools/DrawingInstruction.h"
 
 class WorkspaceLayer
 {

@@ -6,7 +6,7 @@
 #include <QSize>
 
 #include "WorkspaceLayer.h"
-#include "ImageDrawingInstruction.h"
+#include "DrawingTools/ImageDrawingInstruction.h"
 
 class WorkspaceLayerProcessor
 {

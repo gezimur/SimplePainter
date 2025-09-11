@@ -6,8 +6,8 @@
 
 #include "ColorSettingsWidget.h"
 #include "SizeSettingsWidget.h"
-#include "LineDrawingTool.h"
-#include "drawing_tools.h"
+#include "DrawingTools/LineDrawingTool.h"
+#include "DrawingTools/drawing_tools.h"
 
 MainToolsWidget::MainToolsWidget()
     : m_pColorSettings{new ColorSettingsWidget},

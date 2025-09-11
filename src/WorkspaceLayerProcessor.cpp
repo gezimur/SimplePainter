@@ -1,6 +1,6 @@
 #include "WorkspaceLayerProcessor.h"
 
-#include "simple_painter_aux.h"
+#include "DrawingTools/simple_painter_aux.h"
 
 void WorkspaceLayerProcessor::setSheetSize(const QSize& crSize)
 {

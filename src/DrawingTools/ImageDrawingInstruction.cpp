@@ -1,6 +1,5 @@
 #include "ImageDrawingInstruction.h"
 
-#include <iostream>
 #include <QImage>
 
 #include "make_gl_program.h"

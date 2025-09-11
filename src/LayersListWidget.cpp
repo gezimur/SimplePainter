@@ -1,7 +1,5 @@
 #include "LayersListWidget.h"
 
-#include <iostream>
-
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QLineEdit>

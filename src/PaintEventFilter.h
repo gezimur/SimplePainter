@@ -2,7 +2,7 @@
 
 #include <QObject>
 
-#include "DrawingTool.h"
+#include "DrawingTools/DrawingTool.h"
 
 class QMouseEvent;
 class QWheelEvent;
