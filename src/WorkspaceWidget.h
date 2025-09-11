@@ -3,6 +3,7 @@
 #include <QOpenGLWidget>
 #include <QSize>
 
+#include "WorkspaceScene.h"
 #include "WorkspaceLayerProcessor.h"
 #include "PaintEventFilter.h"
 
@@ -28,12 +29,13 @@ public slots:
     void onUndo();
     void onRedo();
     void onUpdateTool(const std::shared_ptr<DrawingTool>& spTool);
-    void onZoom(double dZoom);
+    void onZoom(double dZoom, const QPoint& crPoint);
 
 private slots:
     void onProcPress(const QPoint& crPoint);
     void onProcMove(const QPoint& crPoint);
     void onProcRelease(const QPoint& crPoint);
+    void onProcTranslate(const QPoint& crShift);
 
 private:
     void initializeGL() final;
@@ -45,6 +47,7 @@ private:
     QPoint mapToFrame(const QPoint& crPoint) const;
 
     WorkspaceLayerProcessor m_LayersProcessor;
+    WorkspaceScene m_Scene;
 
     std::shared_ptr<DrawingTool> m_spTool;
 

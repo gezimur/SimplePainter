@@ -34,7 +34,8 @@ SOURCES += \
     $$PWD/src/FillDrawingInstruction.cpp \
     $$PWD/src/FillDrawingTool.cpp \
     $$PWD/src/LayerListItemWidget.cpp \
-    $$PWD/src/LayersListWidget.cpp
+    $$PWD/src/LayersListWidget.cpp \
+    $$PWD/src/WorkspaceScene.cpp
 
 HEADERS += \
     $$PWD/src/MainWidget.h \
@@ -60,4 +61,5 @@ HEADERS += \
     $$PWD/src/FillDrawingInstruction.h \
     $$PWD/src/FillDrawingTool.h \
     $$PWD/src/LayerListItemWidget.h \
-    $$PWD/src/LayersListWidget.h
+    $$PWD/src/LayersListWidget.h \
+    $$PWD/src/WorkspaceScene.h

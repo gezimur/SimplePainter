@@ -2,36 +2,8 @@
 
 #include "simple_painter_aux.h"
 
-QMatrix4x4 make_projection(const QSize& crSize)
-{
-    QMatrix4x4 Result;
-    Result.ortho(0.0f,
-                 static_cast<float>(crSize.width()),
-                 0.0f,
-                 static_cast<float>(crSize.height()),
-                 0.0f,
-                 100.0f);
-
-    return Result;
-}
-
-QMatrix4x4 make_view()
-{
-    QMatrix4x4 Result;
-    Result.lookAt(QVector3D{0, 0, 1}, QVector3D{0, 0, 0}, QVector3D{0, 1, 0});
-    return Result;
-}
-
-QMatrix4x4 make_model()
-{
-    QMatrix4x4 Result{1.0f, 0.0f, 0.0f, 0.0f,
-                      0.0f, 1.0f, 0.0f, 0.0f,
-                      0.0f, 0.0f, 1.0f, 0.0f,
-                      0.0f, 0.0f, 0.0f, 1.0f};
-    return Result;
-}
-
 WorkspaceWidget::WorkspaceWidget(const QSize& crFrameSize)
+    : m_Scene{crFrameSize}
 {
     createConnections();
 
@@ -80,9 +52,9 @@ void WorkspaceWidget::onUpdateTool(const std::shared_ptr<DrawingTool>& spTool)
     m_spTool = spTool;
 }
 
-void WorkspaceWidget::onZoom(double dZoom)
+void WorkspaceWidget::onZoom(double dZoom, const QPoint& crPoint)
 {
-
+    m_Scene.scale(mapToFrame(crPoint), dZoom);
 }
 
 void WorkspaceWidget::onProcPress(const QPoint& crPoint)
@@ -107,6 +79,11 @@ void WorkspaceWidget::onProcRelease(const QPoint& crPoint)
         m_LayersProcessor.addToActiveLayer(spResult);
 }
 
+void WorkspaceWidget::onProcTranslate(const QPoint& crShift)
+{
+    m_Scene.translate(QPoint{crShift.x(), -crShift.y()});
+}
+
 void WorkspaceWidget::initializeGL()
 {
     glEnable(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -122,21 +99,19 @@ void WorkspaceWidget::initializeGL()
 void WorkspaceWidget::resizeGL(int w, int h)
 {
     glViewport(0, 0, w, h);
+    m_Scene.resize(QSize{w, h});
 }
 
 void WorkspaceWidget::paintGL()
 {
     if (m_LayersProcessor.hasChanges())
     {
-        auto BaseMVP = make_projection(size()) * make_view() * make_model();
-
-        m_LayersProcessor.cacheVisible(BaseMVP);
+        m_LayersProcessor.cacheVisible(m_Scene.getBaseMVP());
     }
 
     clear_current_gl();
 
-    auto MVP = make_projection(size()) * make_view() * make_model();
-
+    auto MVP = m_Scene.getMVP();
     m_LayersProcessor.drawCached(MVP);
 
     if (m_spTool)
@@ -153,12 +128,14 @@ void WorkspaceWidget::createConnections()
     bConnected &= static_cast<bool>(connect(&m_PaintEventFilter, SIGNAL(move(const QPoint&)), SLOT(onProcMove(const QPoint&))));
     bConnected &= static_cast<bool>(connect(&m_PaintEventFilter, SIGNAL(release(const QPoint&)), SLOT(onProcRelease(const QPoint&))));
 
-    bConnected &= static_cast<bool>(connect(&m_PaintEventFilter, SIGNAL(zoomRequested(double)), SLOT(onZoom(double))));
+    bConnected &= static_cast<bool>(connect(&m_PaintEventFilter, SIGNAL(translate(const QPoint&)), SLOT(onProcTranslate(const QPoint&))));
+
+    bConnected &= static_cast<bool>(connect(&m_PaintEventFilter, SIGNAL(zoomRequested(double, const QPoint&)), SLOT(onZoom(double, const QPoint&))));
 
     assert(bConnected);
 }
 
 QPoint WorkspaceWidget::mapToFrame(const QPoint& crPoint) const
 {
-    return QPoint{crPoint.x(), size().height() - crPoint.y()};
+    return m_Scene.cvtToFrame(QPointF{crPoint.x(), size().height() - crPoint.y()}).toPoint();
 }
